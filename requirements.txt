@@ -1,0 +1,6 @@
+flask
+requests
+pymupdf
+chromadb
+python-dotenv
+google-genai

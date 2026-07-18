@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DocChat - RAG Chatbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app">
+
+        <aside class="left-panel">
+            <div class="brand">
+                <span class="brand-dot"></span>
+                DocChat
+            </div>
+            <p class="brand-hint">Upload a PDF or TXT file using the clip icon, then ask questions about it.</p>
+
+            <div class="documents-section">
+                <h3>My Documents</h3>
+                <div id="documentsList" class="documents-list">
+                    {% for doc in documents %}
+                        <div class="document-item" data-filename="{{ doc }}">
+                            <span class="doc-icon">📄</span>
+                            <span class="doc-name" title="{{ doc }}">{{ doc }}</span>
+                            <button type="button" class="delete-doc-btn" onclick="deleteDocument('{{ doc }}')" title="Delete document">🗑️</button>
+                        </div>
+                    {% else %}
+                        <p class="doc-empty">No files uploaded yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="history-section">
+                <form method="POST" action="{{ url_for('new_chat') }}">
+                    <button type="submit" class="secondary-btn new-chat-btn">+ New Chat</button>
+                </form>
+
+                <div class="history-list">
+                    {% for item in history_list %}
+                        <a href="{{ url_for('open_chat', session_id=item.id) }}"
+                           class="history-item {{ 'active' if item.id == current_session_id else '' }}">
+                            {{ item.title }}
+                        </a>
+                    {% else %}
+                        <p class="history-empty">No past chats yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="auth-box">
+                <p class="auth-status">Logged in as <b>{{ username }}</b></p>
+                <button type="button" class="secondary-btn" id="logoutBtn">Log out</button>
+            </div>
+        </aside>
+
+        <main class="right-panel">
+            <header class="chat-header">
+                <h1>RAG Chatbot</h1>
+                <span class="subtitle">Ask questions about your uploaded document</span>
+            </header>
+
+            <div id="chatWindow" class="chat-window"></div>
+
+            <div class="chat-input-bar">
+                <button type="button" class="attach-btn" id="attachBtn" title="Upload PDF or TXT">
+                    <input type="file" id="fileInput" accept=".pdf,.txt" hidden>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"
+                              stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+
+                </button>
+
+
+                <input type="text" id="messageInput" placeholder="Type a message...">
+
+                <button id="sendBtn" aria-label="Send">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 12l16-8-6 8 6 8-16-8z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        const isLoggedIn = {{ 'true' if username else 'false' }};
+        const initialMessages = {{ current_messages | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DocChat - Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-body">
+    <div class="login-card">
+        <div class="brand">
+            <span class="brand-dot"></span>
+            DocChat
+        </div>
+        <p class="brand-hint">Create an account to start using DocChat.</p>
+
+        {% if error %}
+            <p class="login-error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('signup') }}" class="login-form">
+            <input type="text" name="name" placeholder="Full name" required autofocus>
+            <input type="email" name="email" placeholder="Email address" required>
+            <input type="text" name="username" placeholder="Choose a username" required>
+            <input type="password" name="password" placeholder="Choose a password" required>
+            <button type="submit">Sign up</button>
+        </form>
+
+        <p class="toggle-line">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+    </div>
+</body>
+</html>

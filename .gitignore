@@ -1,0 +1,57 @@
+# ==========================================
+# .gitignore for RAG Document Chatbot (Flask)
+# ==========================================
+
+# 1. Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+build/
+dist/
+
+# 2. Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# 3. Secrets & environment variables (API keys live here — Gemini/OpenAI etc.)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# 4. App data that shouldn't be public
+users.json
+chat_sessions.json
+instance/
+
+# 5. Vector DB / uploaded document storage (ChromaDB persistence, uploaded files)
+chroma_db/
+vectorstore/
+uploads/
+*.sqlite3
+
+# 6. IDEs & Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# 7. Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# 8. Logs & temp files
+*.log
+scratch/
+
+# 9. Jupyter (if you ever add notebooks here)
+.ipynb_checkpoints/
